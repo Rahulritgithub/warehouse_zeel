@@ -1,0 +1,11 @@
+fastapi
+uvicorn 
+sqlalchemy 
+passlib[bcrypt]
+python-jose 
+psycopg2
+psycopg2-binary
+fastapi-mail
+apscheduler
+alembic
+pydantic
