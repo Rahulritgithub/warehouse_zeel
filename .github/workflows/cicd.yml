@@ -46,8 +46,8 @@ jobs:
           file: ./Zeel_backend/Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/zeel-backend:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/zeel-backend:${{ github.sha }}
+            ${{ secrets.DOCKER_USERNAME }}/zeel-backend:latest
+            ${{ secrets.DOCKER_USERNAME }}/zeel-backend:${{ github.sha }}
 
 
 
