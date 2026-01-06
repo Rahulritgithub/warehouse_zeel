@@ -1,47 +1,69 @@
-name: FastAPI CI Pipeline
+name: FastAPI CI/CD Pipeline
 
 on:
+  # 🔁 Automatically run on code pushes and pull requests to main
   push:
     branches:
       - main
   pull_request:
+    branches:
+      - main
+
+  # 🧭 Allow manual trigger from GitHub Actions tab
+  workflow_dispatch:
 
 jobs:
   build-and-test:
-    name: CI - Test, Lint, and Build Docker Image
+    name: CI - Test, Lint, Build & Push Docker Image
     runs-on: ubuntu-latest
 
     steps:
+
       - name: Checkout code
         uses: actions/checkout@v3
 
+     
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.11"
 
+  
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest flake8
 
+    
       - name: Run tests
         run: pytest -v
 
-      - name: Lint
-        run: flake8 app
+     
+      - name: Lint with flake8
+        run: |
+          flake8 app --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 app --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
+      
       - name: Build Docker image
         run: docker build -t myfastapi:latest .
 
+   
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+     
       - name: Push Docker image
         run: |
-          docker tag myfastapi:latest ${{ secrets.DOCKERHUB_USERNAME }}/myfastapi:latest
-          docker push ${{ secrets.DOCKERHUB_USERNAME }}/myfastapi:latest
+          IMAGE_NAME=${{ secrets.DOCKERHUB_USERNAME }}/myfastapi
+          docker tag myfastapi:latest $IMAGE_NAME:latest
+          docker push $IMAGE_NAME:latest
+
+          # Optional: version tagging (e.g., based on commit SHA)
+          SHORT_SHA=$(echo $GITHUB_SHA | cut -c1-7)
+          docker tag myfastapi:latest $IMAGE_NAME:$SHORT_SHA
+          docker push $IMAGE_NAME:$SHORT_SHA
