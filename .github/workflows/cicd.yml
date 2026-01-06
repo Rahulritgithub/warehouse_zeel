@@ -27,6 +27,7 @@ jobs:
 
       # 4️⃣ Install dependencies
       - name: Install dependencies
+        working-directory: Zeel_backend
         run: |
           pip install -r requirements.txt
           pip install flake8
