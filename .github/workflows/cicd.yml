@@ -40,13 +40,13 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # 7️⃣ Build and Push Docker Image
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
-          context: ./Zeel_backend             # 👈 Path where Dockerfile is located
-          file: ./Zeel_backend/Dockerfile     # 👈 Path to your Dockerfile
+          context: ./Zeel_backend
+          file: ./Zeel_backend/Dockerfile
           push: true
           tags: |
-            ${{ secrets.DOCKER_USERNAME }}/zeel-backend:latest
-            ${{ secrets.DOCKER_USERNAME }}/zeel-backend:${{ github.sha }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/zeel-backend:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/zeel-backend:${{ github.sha }}
+
