@@ -17,7 +17,7 @@ jobs:
       - name: Set up Python 3.13
         uses: actions/setup-python@v5
         with:
-        python-version: '3.13'
+          python-version: '3.13'  
 
       - name: Upgrade pip
         run: python -m pip install --upgrade pip
@@ -35,5 +35,3 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
-
