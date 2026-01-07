@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN pip install --upgrade pip
 
 
-COPY requirements.txt .
+COPY WAREHOUSE_ZEEL/Zeel_backend/requirements.txt .
 
 
 RUN pip install --no-cache-dir -r requirements.txt
