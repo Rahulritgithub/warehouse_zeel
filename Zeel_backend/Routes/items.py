@@ -7,6 +7,8 @@ from Models.items import Item
 from Models.rack import Rack
 from Models.storage_bin import StorageBin
 from Schemas.items import ItemCreate, ItemUpdate, ItemResponse
+from Models.sku import SKU
+
 
 router = APIRouter(prefix="/items", tags=["Items"])
 
@@ -17,33 +19,24 @@ router = APIRouter(prefix="/items", tags=["Items"])
 @router.post("/add", response_model=ItemResponse, status_code=status.HTTP_201_CREATED)
 def create_item(item: ItemCreate, db: Session = Depends(get_db)):
 
-    # 1️⃣ Check for duplicate RFID in items table
-    existing_item = db.query(Item).filter(
-        Item.rfid == item.rfid
-    ).first()
+    if db.query(Item).filter(Item.rfid == item.rfid).first():
+        raise HTTPException(status_code=400, detail="RFID already exists")
 
-    if existing_item:
-        raise HTTPException(status_code=400, detail="This RFID is already assigned to an item")
+    sku = db.query(SKU).filter(SKU.id == item.sku_id).first()
+    if not sku:
+        raise HTTPException(status_code=404, detail="SKU not found")
 
-    # 2️⃣ Check if rack exists
-    rack_exists = db.query(Rack).filter(
-        Rack.rack_id == item.rack_id
-    ).first()
-
-    if not rack_exists:
+    if not db.query(Rack).filter(Rack.rack_id == item.rack_id).first():
         raise HTTPException(status_code=404, detail="Rack not found")
 
-    # 3️⃣ Check if storage bin exists
-    storage_bin_exists = db.query(StorageBin).filter(
+    if not db.query(StorageBin).filter(
         StorageBin.rfid == item.storage_bin_rfid
-    ).first()
-
-    if not storage_bin_exists:
+    ).first():
         raise HTTPException(status_code=404, detail="Storage Bin not found")
 
-    # 4️⃣ Create new item
     new_item = Item(
         rfid=item.rfid,
+        sku_id=item.sku_id,
         rack_id=item.rack_id,
         storage_bin_rfid=item.storage_bin_rfid
     )
@@ -51,8 +44,8 @@ def create_item(item: ItemCreate, db: Session = Depends(get_db)):
     db.add(new_item)
     db.commit()
     db.refresh(new_item)
-
     return new_item
+
 
 
 

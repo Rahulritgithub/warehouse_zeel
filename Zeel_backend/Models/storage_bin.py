@@ -2,7 +2,6 @@ from sqlalchemy import Boolean, Column, Integer, String, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from Database.database import Base
-from Models.rack import Rack
 
 
 class StorageBin(Base):
@@ -10,7 +9,8 @@ class StorageBin(Base):
     
     id = Column(Integer, primary_key=True, index=True)
     rfid = Column(String(100), unique=True, index=True)
-    rack_id = Column(String(100), ForeignKey(Rack.rack_id))
+    rack_id = Column(String(100), ForeignKey("racks.rack_id"))  # Fixed ForeignKey
+    capacity = Column(Integer, default=1, nullable=False)  # Added capacity field
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
     

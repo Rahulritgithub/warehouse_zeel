@@ -20,6 +20,7 @@ from Routes import storage_bin
 from Routes import items
 from Routes import transaction
 from Routes import request,email_subscriber
+from Routes import sku
 
 
 logging.basicConfig(level=logging.INFO)
@@ -48,6 +49,7 @@ app.include_router(items.router)
 app.include_router(transaction.router)
 app.include_router(request.router)
 app.include_router(email_subscriber.router) 
+app.include_router(sku.router)
 
 # ---------------------------
 #  SINGLE STARTUP FUNCTION
