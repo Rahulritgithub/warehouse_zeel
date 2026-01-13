@@ -38,7 +38,7 @@ def create_item(item: ItemCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.post("/bulk", response_model=List[ItemResponse])
+@router.post("/bulk_upload", response_model=List[ItemResponse])
 def create_items_bulk(items: ItemBulkCreate, db: Session = Depends(get_db)):
     """Create multiple items in bulk"""
     try:
