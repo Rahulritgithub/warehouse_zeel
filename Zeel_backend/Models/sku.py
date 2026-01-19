@@ -8,7 +8,7 @@ class SKU(Base):
     __tablename__ = "skus"
 
     id = Column(Integer, primary_key=True, index=True)
-    sku_code = Column(String(50), unique=True, index=True)   # e.g TS-M-BLU
+    sku_code = Column(String(50), unique=True, index=True)  # e.g TS-M-BLU
     product_name = Column(String(100))
     category = Column(String(50))
 

@@ -1,0 +1,57 @@
+# -------------------------
+# Python
+# -------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+venv/
+.env/
+.env.*
+ENV/
+.venv/
+
+# -------------------------
+# FastAPI / Backend
+# -------------------------
+logs/
+*.log
+instance/
+
+# Alembic
+alembic/versions/*.pyc
+
+# -------------------------
+# Database
+# -------------------------
+*.sqlite3
+*.db
+
+# -------------------------
+# Environment & Secrets
+# -------------------------
+.env
+.env.local
+.env.dev
+.env.prod
+secrets/
+config.yaml
+config.json
+
+# -------------------------
+# Docker
+# -------------------------
+docker-compose.override.yml
+*.env.docker
+
+
+
+

@@ -1,9 +1,10 @@
 from fastapi_mail import FastMail, MessageSchema, ConnectionConfig
-from pydantic_settings import BaseSettings 
+from pydantic_settings import BaseSettings
 import logging
 
 # Configure logging
 logger = logging.getLogger(__name__)
+
 
 # Load config from environment
 class MailSettings(BaseSettings):
@@ -21,6 +22,7 @@ class MailSettings(BaseSettings):
         env_file = ".env"
         extra = "ignore"
 
+
 settings = MailSettings()
 
 conf = ConnectionConfig(
@@ -32,19 +34,17 @@ conf = ConnectionConfig(
     MAIL_STARTTLS=settings.MAIL_STARTTLS,
     MAIL_SSL_TLS=settings.MAIL_SSL_TLS,
     USE_CREDENTIALS=settings.USE_CREDENTIALS,
-    VALIDATE_CERTS=settings.VALIDATE_CERTS
+    VALIDATE_CERTS=settings.VALIDATE_CERTS,
 )
 
 fm = FastMail(conf)
+
 
 async def send_email(to: str, subject: str, body: str):
     """Send plain text email"""
     try:
         message = MessageSchema(
-            subject=subject,
-            recipients=[to],
-            body=body,
-            subtype="plain"
+            subject=subject, recipients=[to], body=body, subtype="plain"
         )
         await fm.send_message(message)
         logger.info(f"Email sent successfully to {to}")

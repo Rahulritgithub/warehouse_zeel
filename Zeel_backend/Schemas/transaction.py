@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, List
 from enum import Enum
 from datetime import datetime
 from pydantic import BaseModel
@@ -20,9 +20,20 @@ class TransactionCreate(TransactionBase):
     pass
 
 
-class TransactionResponse(TransactionBase):
+class BulkTransactionUpdateRequest(BaseModel):
+    rfids: List[str]  # BULK RFID list from frontend
+    type: TransactionType
+    reason: Optional[str] = None
+
+
+class TransactionResponse(BaseModel):
     id: int
+    type: TransactionType
+    storage_bin_rfid: str
+    reason: Optional[str]
     transaction_date: datetime
+
+    item_rfids: List[str] = []
 
     class Config:
         from_attributes = True

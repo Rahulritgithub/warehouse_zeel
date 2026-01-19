@@ -2,12 +2,15 @@ from datetime import datetime
 from pydantic import BaseModel, EmailStr
 from typing import Optional
 
+
 class EmailSubscriberBase(BaseModel):
     email: EmailStr
     is_active: bool = True
 
+
 class EmailSubscriberCreate(EmailSubscriberBase):
     pass
+
 
 class EmailSubscriberResponse(EmailSubscriberBase):
     id: int

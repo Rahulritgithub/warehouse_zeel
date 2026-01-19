@@ -18,10 +18,12 @@ class ItemBase(BaseModel):
     status: Optional[str] = "IN_STOCK"
     track: Optional[ItemTrackStatus] = ItemTrackStatus.INWARD
 
-    @validator('track')
+    @validator("track")
     def validate_track(cls, v):
         if v not in ItemTrackStatus:
-            raise ValueError(f"track must be one of: {', '.join([e.value for e in ItemTrackStatus])}")
+            raise ValueError(
+                f"track must be one of: {', '.join([e.value for e in ItemTrackStatus])}"
+            )
         return v
 
 

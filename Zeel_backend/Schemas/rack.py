@@ -5,14 +5,13 @@ from Schemas.items import ItemResponse
 from Schemas.storage_bin import StorageBinResponse
 
 
-
 class RackBase(BaseModel):
-    rack_id: Optional[str] = None   # parent rack id (if hierarchical)
+    rack_id: Optional[str] = None  # parent rack id (if hierarchical)
     location: Optional[str] = None
 
 
 class RackCreate(RackBase):
-    location: str 
+    location: str
 
 
 class RackUpdate(BaseModel):
@@ -28,6 +27,4 @@ class RackResponse(RackBase):
     items: List[ItemResponse] = []
 
     class Config:
-        from_attributes = True  
-
-
+        from_attributes = True

@@ -1,18 +1,17 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, DateTime, Enum
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-from datetime import datetime
 import enum
 from Database.database import Base
 from Models.storage_bin import StorageBin
+from sqlalchemy import UniqueConstraint
+
 
 class TransactionType(str, enum.Enum):
     INWARD = "inward"
     OUTWARD = "outward"
     RETURN = "return"
 
-
-from sqlalchemy import UniqueConstraint
 
 class Transaction(Base):
     __tablename__ = "transactions"

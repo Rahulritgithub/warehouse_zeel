@@ -11,10 +11,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 # Import your Base and models
 try:
     from Database.database import Base
-    from Models.items import Item
-    from Models.rack import Rack
-    from Models.storage_bin import StorageBin
-    from Models.sku import SKU
+
     print("Successfully imported models")
 except ImportError as e:
     print(f"Import error: {e}")
@@ -30,6 +27,7 @@ if config.config_file_name is not None:
 
 # Set target metadata
 target_metadata = Base.metadata
+
 
 def run_migrations_offline() -> None:
     url = config.get_main_option("sqlalchemy.url")
@@ -52,10 +50,7 @@ def run_migrations_online() -> None:
     )
 
     with connectable.connect() as connection:
-        context.configure(
-            connection=connection, 
-            target_metadata=target_metadata
-        )
+        context.configure(connection=connection, target_metadata=target_metadata)
 
         with context.begin_transaction():
             context.run_migrations()

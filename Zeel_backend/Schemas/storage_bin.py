@@ -6,7 +6,9 @@ from typing import Optional
 class StorageBinBase(BaseModel):
     rfid: str
     rack_id: str
-    capacity: int = Field(default=1, ge=1, description="Maximum number of items the bin can hold")
+    capacity: int = Field(
+        default=1, ge=1, description="Maximum number of items the bin can hold"
+    )
 
 
 class StorageBinCreate(StorageBinBase):
