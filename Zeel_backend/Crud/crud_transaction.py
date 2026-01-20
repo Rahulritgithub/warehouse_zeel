@@ -89,6 +89,42 @@ def bulk_update_transactions_and_items(
 
 
 # -------------------------------
+# check existing and missing RFIDs for inward
+# -------------------------------
+
+
+def inward_existing_rfids(db: Session, rfids: list[str]):
+    # Query only RFIDs that exist in Item table
+    items = (
+        db.query(Item.rfid).filter(Item.rfid.in_(rfids), Item.track == "INWARD").all()
+    )
+    existing_rfids = [item.rfid for item in items]
+
+    # Compute missing RFIDs
+    missing_rfids = list(set(rfids) - set(existing_rfids))
+
+    return existing_rfids, missing_rfids
+
+
+# -------------------------------
+# check existing and missing RFIDs for outward
+# -------------------------------
+
+
+def outward_existing_rfids(db: Session, rfids: list[str]):
+    # Query only RFIDs that exist in Item table
+    items = (
+        db.query(Item.rfid).filter(Item.rfid.in_(rfids), Item.track == "OUTWARD").all()
+    )
+    existing_rfids = [item.rfid for item in items]
+
+    # Compute missing RFIDs
+    missing_rfids = list(set(rfids) - set(existing_rfids))
+
+    return existing_rfids, missing_rfids
+
+
+# -------------------------------
 # DELETE
 # -------------------------------
 def delete_transaction(db: Session, transaction: Transaction):

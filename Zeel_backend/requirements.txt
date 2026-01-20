@@ -10,3 +10,4 @@ apscheduler
 alembic
 pydantic
 python-dotenv
+redis fastapi-cache2

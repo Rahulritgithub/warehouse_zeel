@@ -35,5 +35,14 @@ class TransactionResponse(BaseModel):
 
     item_rfids: List[str] = []
 
+
+class BulkRFIDVerifyRequest(BaseModel):
+    rfids: List[str]
+
+
+class BulkRFIDVerifyResponse(BaseModel):
+    existing_rfids: List[str]  # RFIDs that exist in Item table
+    missing_rfids: List[str]  # RFIDs not found
+
     class Config:
         from_attributes = True

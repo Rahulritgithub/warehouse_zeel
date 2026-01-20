@@ -6,6 +6,8 @@ from Schemas.transaction import (
     TransactionCreate,
     TransactionResponse,
     BulkTransactionUpdateRequest,
+    BulkRFIDVerifyRequest,
+    BulkRFIDVerifyResponse,
 )
 from Crud import crud_transaction as crud_transaction
 
@@ -142,3 +144,32 @@ def bulk_update_transaction(
         "transactions_updated": len(transactions),
         "items_updated": len(items),
     }
+
+
+@router.post("/inward/verify-rfids", response_model=BulkRFIDVerifyResponse)
+def inward_bulk_rfids(payload: BulkRFIDVerifyRequest, db: Session = Depends(get_db)):
+    if not payload.rfids:
+        raise HTTPException(status_code=400, detail="RFID list cannot be empty")
+
+    existing_rfids, missing_rfids = crud_transaction.inward_existing_rfids(
+        db, payload.rfids
+    )
+    print(existing_rfids, missing_rfids)
+
+    return BulkRFIDVerifyResponse(
+        existing_rfids=existing_rfids, missing_rfids=missing_rfids
+    )
+
+
+@router.post("/outward/verify-rfids", response_model=BulkRFIDVerifyResponse)
+def outward_bulk_rfids(payload: BulkRFIDVerifyRequest, db: Session = Depends(get_db)):
+    if not payload.rfids:
+        raise HTTPException(status_code=400, detail="RFID list cannot be empty")
+
+    existing_rfids, missing_rfids = crud_transaction.outward_existing_rfids(
+        db, payload.rfids
+    )
+
+    return BulkRFIDVerifyResponse(
+        existing_rfids=existing_rfids, missing_rfids=missing_rfids
+    )
