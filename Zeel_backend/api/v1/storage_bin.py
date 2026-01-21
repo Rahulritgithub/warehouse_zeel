@@ -13,7 +13,6 @@ from Services.storage_bin_cache import (
     delete_storage_bin_list_cache,
 )
 
-
 router = APIRouter(prefix="/storage_bins", tags=["StorageBins"])
 
 
@@ -63,7 +62,6 @@ def get_all_storage_bins(
     return bins
 
 
-
 # ----------------------------
 # READ StorageBin by RFID
 # ----------------------------
@@ -83,8 +81,6 @@ def get_storage_bin(rfid: str, db: Session = Depends(get_db)):
     return storage_bin
 
 
-
-
 # ----------------------------
 # UPDATE StorageBin
 # ----------------------------
@@ -101,7 +97,7 @@ def update_storage_bin(
     if "rfid" in update_data and update_data["rfid"] != rfid:
         if crud_storage_bin.get_storage_bin_by_rfid(db, update_data["rfid"]):
             raise HTTPException(status_code=400, detail="RFID already exists")
-        delete_storage_bin_cache(rfid) 
+        delete_storage_bin_cache(rfid)
 
     if "capacity" in update_data and update_data["capacity"] <= 0:
         raise HTTPException(status_code=400, detail="Capacity must be greater than 0")
@@ -112,8 +108,6 @@ def update_storage_bin(
     delete_storage_bin_list_cache()
 
     return updated_bin
-
-
 
 
 # ----------------------------

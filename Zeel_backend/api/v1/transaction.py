@@ -154,7 +154,6 @@ def inward_bulk_rfids(payload: BulkRFIDVerifyRequest, db: Session = Depends(get_
     existing_rfids, missing_rfids = crud_transaction.inward_existing_rfids(
         db, payload.rfids
     )
-    
 
     return BulkRFIDVerifyResponse(
         existing_rfids=existing_rfids, missing_rfids=missing_rfids
@@ -169,7 +168,6 @@ def outward_bulk_rfids(payload: BulkRFIDVerifyRequest, db: Session = Depends(get
     existing_rfids, missing_rfids = crud_transaction.return_existing_rfids(
         db, payload.rfids
     )
-
 
     return BulkRFIDVerifyResponse(
         existing_rfids=existing_rfids, missing_rfids=missing_rfids
