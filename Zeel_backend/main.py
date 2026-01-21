@@ -11,7 +11,7 @@ from scheduler import start_scheduler
 from Middleware.api_monitor import api_monitor
 from core.logging import setup_logging
 from dotenv import load_dotenv
-from core.cache import init_redis
+from core.cache import redis_client
 
 # Import routers
 from api.v1 import (
@@ -85,9 +85,8 @@ async def startup():
     try:
         logger.info("Starting up application...")
 
-        logger.info("Initializing Redis cache...")
-        await init_redis()
-        logger.info("Redis initialized successfully.")
+        redis_client.ping()
+        print("Redis connected")
 
         # Create database tables
         logger.info("Creating database tables...")

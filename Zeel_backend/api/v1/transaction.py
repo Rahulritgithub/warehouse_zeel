@@ -154,21 +154,22 @@ def inward_bulk_rfids(payload: BulkRFIDVerifyRequest, db: Session = Depends(get_
     existing_rfids, missing_rfids = crud_transaction.inward_existing_rfids(
         db, payload.rfids
     )
-    print(existing_rfids, missing_rfids)
+    
 
     return BulkRFIDVerifyResponse(
         existing_rfids=existing_rfids, missing_rfids=missing_rfids
     )
 
 
-@router.post("/outward/verify-rfids", response_model=BulkRFIDVerifyResponse)
+@router.post("/return/verify-rfids", response_model=BulkRFIDVerifyResponse)
 def outward_bulk_rfids(payload: BulkRFIDVerifyRequest, db: Session = Depends(get_db)):
     if not payload.rfids:
         raise HTTPException(status_code=400, detail="RFID list cannot be empty")
 
-    existing_rfids, missing_rfids = crud_transaction.outward_existing_rfids(
+    existing_rfids, missing_rfids = crud_transaction.return_existing_rfids(
         db, payload.rfids
     )
+
 
     return BulkRFIDVerifyResponse(
         existing_rfids=existing_rfids, missing_rfids=missing_rfids

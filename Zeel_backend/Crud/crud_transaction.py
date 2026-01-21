@@ -111,7 +111,7 @@ def inward_existing_rfids(db: Session, rfids: list[str]):
 # -------------------------------
 
 
-def outward_existing_rfids(db: Session, rfids: list[str]):
+def return_existing_rfids(db: Session, rfids: list[str]):
     # Query only RFIDs that exist in Item table
     items = (
         db.query(Item.rfid).filter(Item.rfid.in_(rfids), Item.track == "OUTWARD").all()
